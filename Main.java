@@ -1,9 +1,6 @@
 package com.shevlik;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        Menu menu=new Menu("1. Задача 1.","2. Задача 2.");
+        Menu menu=new Menu("1. Задача 1: Вывести пары слов, где последняя буква первого слова = первой букве второго.",
+                "2. Задача 2: Работа со списком студентов.");
 
         do {
             menu.showMenu();
@@ -21,36 +19,11 @@ public class Main {
             else{
                 switch (numberOfMenu){
                     case 1:
-                        List<String> list=new ArrayList<String>();
-                        String str;
-                        try(FileReader fr=new FileReader("./Text.txt")){
-                            BufferedReader br=new BufferedReader(fr);
-                            while((str=br.readLine())!=null){
-                                list.add(str);
-                            }
-                        }catch (IOException ex){
-                            System.out.println(ex.getMessage());
-                        }
-                        int listSize=list.size();
-                        String str2="";
-                        for(int i=0;i<listSize;i++){
-                            str2+=list.get(i);
-                        }
-                        List<String> list1=new ArrayList<String>();
-                        Collections.addAll(list1,str2.split("[ ()\"!.,?-]+"));
-                        /*for (int i=0;i<list1.size();i++){
-                            System.out.println(list1.get(i));
-                        }*/
-                        int list1Size=list1.size();
-                        String[] strArray=list1.toArray(new String[list1Size]);
-                        List<String> listOut=new ArrayList<>();
-                        for(int i=0;i<strArray.length-1;i++){
-                            char chEnd1=strArray[i].charAt(strArray[i].length()-1);
-                            char chStart2=strArray[i+1].charAt(0);
-                            if(chEnd1==chStart2){
-                                Collections.addAll(listOut,strArray[i]+" "+strArray[i+1]);
-                            }
-                        }
+                        List<String> list=Transformation.readToList();
+                        String str=Transformation.listToOneString(list);
+                        list=new ArrayList<String>();
+                        list=Transformation.splitStringToList(str);
+                        List<String> listOut=Transformation.getWordsEndIsStart(list);
                         for (int i=0;i<listOut.size();i++){
                             System.out.println(listOut.get(i));
                         }
